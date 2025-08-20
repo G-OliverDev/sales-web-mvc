@@ -16,6 +16,8 @@ namespace SalesWebMvc
                     builder => builder.MigrationsAssembly("SalesWebMvc")
                 ));
 
+            builder.Services.AddScoped<SeedingService>();
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
@@ -31,6 +33,13 @@ namespace SalesWebMvc
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                using (var scope = app.Services.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+                    var seedingService = services.GetRequiredService<SeedingService>();
+                    seedingService.Seed();
+                }
             }
             else
             {
