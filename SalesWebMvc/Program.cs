@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 using SalesWebMvc.Data;
 using SalesWebMvc.Services;
+
 namespace SalesWebMvc
 {
     public class Program
@@ -9,7 +12,7 @@ namespace SalesWebMvc
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            
             builder.Services.AddDbContext<SalesWebMvcContext>(options =>
                 options.UseMySql(
                     builder.Configuration.GetConnectionString("SalesWebMvcContext"),
@@ -49,6 +52,16 @@ namespace SalesWebMvc
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            var enUs = new CultureInfo("en-US");
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(enUs),
+                SupportedCultures = new List<CultureInfo> { enUs },
+                SupportedUICultures = new List<CultureInfo> { enUs }
+            };
+
+            app.UseRequestLocalization(localizationOptions);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
