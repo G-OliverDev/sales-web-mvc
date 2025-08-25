@@ -37,6 +37,8 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Seller seller)
         {
+            // To Fix: server-side validation isn't working properly
+            /*
             if (!ModelState.IsValid)
             {
                 var departments = await _departmentService.FindAllAsync();
@@ -44,6 +46,7 @@ namespace SalesWebMvc.Controllers
 
                 return View(viewModel);
             }
+            */
 
             await _sellerService.InsertAsync(seller);
 
@@ -121,6 +124,8 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Seller seller)
         {
+            // To Fix: server-side validation isn't working properly
+            /*
             if (!ModelState.IsValid)
             {
                 var departments = await _departmentService.FindAllAsync();
@@ -128,6 +133,7 @@ namespace SalesWebMvc.Controllers
 
                 return View(viewModel);
             }
+            */
 
             if (id != seller.Id)
             {
